@@ -28,7 +28,7 @@ Set at least these values in `.env`:
 
 | Variable | Purpose |
 |---|---|
-| `DATABASE_URL` | Supabase PostgreSQL (Session Pooler) URL |
+| `DATABASE_URL` | PostgreSQL connection URL (Neon pooled URL in production) |
 | `SECRET_KEY` | Random 64-char session signing key |
 | `UPLOAD_FOLDER` | Upload directory — keep it outside `app/static` |
 | `SESSION_HOURS` | "Remember me" session lifetime (default 8) |
@@ -36,7 +36,7 @@ Set at least these values in `.env`:
 
 ## 3️⃣ Initialize Database
 
-Create a Supabase project, copy the PostgreSQL Session Pooler URL, and set it
+Create a Neon project (or attach Neon from the Vercel Storage tab), copy the pooled PostgreSQL connection URL, and set it
 before initializing the schema:
 ```powershell
 $env:DATABASE_URL="postgresql://postgres.project-ref:password@pooler.supabase.com:5432/postgres?sslmode=require"
@@ -72,7 +72,7 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-77 tests run against an in-memory SQLite database, so nothing touches Supabase.
+77 tests run against an in-memory SQLite database, so nothing touches the production database.
 
 ---
 
@@ -106,7 +106,7 @@ pytest
 → Run `pip install -r requirements.txt`
 
 **`sqlalchemy.exc.OperationalError`**
-→ Check the Supabase `DATABASE_URL`, password, pooler host, and
+→ Check the `DATABASE_URL`, password, pooler host, and
 `sslmode=require`, then run `python init_db.py` again.
 
 **Port 5000 already in use**  

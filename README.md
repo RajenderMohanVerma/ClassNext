@@ -1,7 +1,7 @@
 # 🚀 ClassNext — Teacher–Student Learning Portal
 
 <p align="center">
-  <a href="https://class-next-byamit.getvoroa.com/"><img src="https://img.shields.io/badge/🌐%20Live%20Website-Open%20ClassNext-4F46E5?style=for-the-badge" alt="Live Website" /></a>
+  <a href="https://classnext-tau.vercel.app/"><img src="https://img.shields.io/badge/🌐%20Live%20Website-Open%20ClassNext-4F46E5?style=for-the-badge" alt="Live Website" /></a>
   <a href="https://github.com/RajenderMohanVerma/ClassNext"><img src="https://img.shields.io/badge/GitHub-Repository-111827?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repository" /></a>
 </p>
 
@@ -19,7 +19,9 @@
   <a href="#testing">Testing</a>
 </p>
 
-> 🌐 **Live Demo:** https://class-next-byamit.getvoroa.com/
+> 🌐 **Live Demo:** https://classnext-tau.vercel.app/
+>
+> ☁️ **Hosting:** Vercel (serverless, always on) + Neon PostgreSQL — redeployed 21 Nov 2026. Every push to `main` auto-deploys; database tables are created automatically on cold start (`api/index.py`), and `/healthz` reports live database status.
 
 > **Project Repository:** https://github.com/RajenderMohanVerma/ClassNext
 
@@ -79,12 +81,12 @@ A modern, production-ready educational content management system built with Flas
 
 ### 🧪 Testing
 - **110 automated tests** covering auth, roles, CRUD, publication, uploads, search, pagination, error handling, and PWA assets
-- **Isolated test database** — in-memory SQLite via `TestingConfig`, never touches Supabase
+- **Isolated test database** — in-memory SQLite via `TestingConfig`, never touches the production database
 
 ## 🧰 Tech Stack
 
 - **Backend**: Flask 3.1 + SQLAlchemy 2.x ORM
-- **Database**: Supabase PostgreSQL
+- **Database**: Neon PostgreSQL (free tier, Singapore region)
 - **Frontend**: Vanilla HTML, CSS (custom + Bootstrap Icons), JavaScript
 - **Authentication**: Werkzeug password hashing + Flask session
 - **Deployment**: Gunicorn (Procfile) or Vercel serverless (`api/index.py` + `vercel.json`)
@@ -92,7 +94,7 @@ A modern, production-ready educational content management system built with Flas
 ## 📋 Prerequisites
 
 - **Python 3.9+** (Flask 3.1 requirement)
-- **Supabase PostgreSQL** (Session Pooler connection recommended for Vercel)
+- **PostgreSQL** — Neon recommended (pooled connection URL for Vercel/serverless)
 - **pip** (Python package manager)
 - **virtualenv** (recommended)
 
@@ -134,7 +136,7 @@ cp .env.example .env
 Edit `.env`:
 
 ```env
-# Supabase PostgreSQL connection
+# PostgreSQL connection (Neon in production)
 DATABASE_URL=postgresql://postgres.project-ref:password@pooler.supabase.com:5432/postgres?sslmode=require
 
 # Flask secret key (generate with: python -c "import secrets; print(secrets.token_hex(32))")
@@ -166,9 +168,9 @@ Full list of variables: see [`.env.example`](.env.example).
 python -c "import secrets; print(secrets.token_hex(32))"
 ```
 
-### 5. Set Up Supabase PostgreSQL
+### 5. Set Up PostgreSQL (Neon)
 
-Use the Supabase Session Pooler connection URL:
+Create a free Neon project and copy its pooled PostgreSQL connection URL:
 
 ```powershell
 $env:DATABASE_URL="postgresql://postgres.project-ref:password@pooler.supabase.com:5432/postgres?sslmode=require"
@@ -422,9 +424,12 @@ The project is configured for Vercel through `api/index.py` and
 request to the Flask application entry point.
 
 1. Push the repository to GitHub.
-2. Create a Supabase PostgreSQL database, and copy its complete
-   connection URL.
-3. Initialize the production schema from a local machine:
+2. Create a Neon PostgreSQL database. The easiest path is Vercel's
+   Storage/Integrations tab: attach Neon to the project and `DATABASE_URL`
+   (plus the other PG variables) is set automatically.
+3. (Optional, for a manually managed database) Initialize the schema from
+   a local machine. On Vercel this step is automatic: `api/index.py`
+   creates any missing tables on cold start.
    ```powershell
    $env:DATABASE_URL="postgresql://user:password@host/classnest_db?sslmode=require"
    $env:FLASK_ENV="production"
@@ -437,7 +442,7 @@ request to the Flask application entry point.
    `APP_NAME`, `APP_TAGLINE`, `SESSION_HOURS`, `MAX_UPLOAD_MB`,
    `RATE_LIMIT_STORAGE_URI`, `RATE_LIMIT_DEFAULT`.
    `UPLOAD_FOLDER` is forced to `/tmp/classnest-uploads` on Vercel, so uploaded
-   files are ephemeral — move them to Supabase Storage for persistence.
+   files are ephemeral — move them to durable object storage for persistence.
 6. Deploy the `main` branch and test login, registration, teacher CRUD, student
    browsing, search, `/api/stats`, and `/healthz`.
 
@@ -522,7 +527,7 @@ pytest -q         # quiet output
 ```
 
 `TestingConfig` gives each test run an in-memory SQLite database and a temporary
-upload directory, so tests never touch the Supabase instance. Rate limiting and
+upload directory, so tests never touch the production database. Rate limiting and
 CSRF are disabled there and are verified manually.
 
 ---
@@ -612,7 +617,7 @@ with app.app_context():
 
 - **Database Indexing**: Email, slugs, status, topic, `published_at`, `is_published`, `size_bytes`, `content_id`; unique indexes on `content.slug` and `subjects.slug`
 - **Pagination**: Content 12/page, teacher files 20/page, teacher students 20/page, teacher announcements 20/page, student announcements 10/page; filters and sort are preserved across pages
-- **Connection Pooling**: `pool_pre_ping` and `pool_recycle=280` keep Supabase connections healthy
+- **Connection Pooling**: `pool_pre_ping` and `pool_recycle=280` keep PostgreSQL connections healthy
 - **Caching**: The service worker caches static assets only; HTML is never cached
 - **Lazy Loading**: Images use native lazy loading
 - **Query Optimization**: Uses SQLAlchemy `.filter()` chains efficiently
@@ -629,7 +634,7 @@ with app.app_context():
 - [ ] Multilingual support (i18n)
 - [ ] Content versioning and rollback
 - [ ] Advanced analytics and reporting
-- [ ] Durable object storage (Supabase Storage) instead of local disk
+- [ ] Durable object storage (Vercel Blob / S3) instead of local disk
 - [ ] Mobile native app (React Native / Flutter)
 
 ---

@@ -13,7 +13,7 @@
 
 ### Core Application (Flask Backend)
 - ✅ **App Factory Pattern** (`app/__init__.py`) — Blueprints, error handlers, context processors
-- ✅ **Configuration Management** (`app/config.py`) — Supabase PostgreSQL configuration
+- ✅ **Configuration Management** (`app/config.py`) — PostgreSQL configuration (Neon in production)
 - ✅ **Extensions** (`app/extensions.py`) — SQLAlchemy, Flask-Migrate, CSRF, Rate Limiting
 
 ### Database Models (SQLAlchemy ORM)
@@ -164,7 +164,7 @@
 - `api/index.py` — Vercel serverless entry point
 - `create_teacher.py` — CLI tool for teacher account creation (secure prompts)
 - `init_db.py` — Database initialization, additive schema sync, legacy upload migration
-- `tests/` — 110 automated tests (SQLite, isolated from Supabase, includes PWA assets)
+- `tests/` — 110 automated tests (SQLite, isolated from the production database, includes PWA assets)
 
 #### Documentation (11 Files)
 - **README.md** — Complete guide with setup, usage, API docs, deployment, troubleshooting
@@ -297,7 +297,7 @@ Indexes: created_at
 ## 🚀 Deployment Ready
 
 ✅ **Environment Configuration**
-- Supabase PostgreSQL connection required in every environment
+- PostgreSQL connection required in every environment (Neon in production)
 - `.env` support for sensitive values
 - Configurable upload folder and size limits
 - Customizable app name/tagline
