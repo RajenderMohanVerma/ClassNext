@@ -1,3 +1,4 @@
+import mimetypes
 import os
 
 from flask import Flask, abort, flash, g, jsonify, render_template
@@ -9,6 +10,11 @@ from app.services.pagination import pagination_args
 
 def create_app(config_class=None):
     app = Flask(__name__, static_folder='static', template_folder='templates')
+
+    # The .ico MIME type differs by platform (image/x-icon vs
+    # image/vnd.microsoft.icon); pin it so /favicon.ico and
+    # /static/favicon.ico always agree.
+    mimetypes.add_type('image/x-icon', '.ico')
 
     if config_class is None:
         env = os.environ.get('FLASK_ENV', 'development').strip().lower()
@@ -139,7 +145,8 @@ def create_app(config_class=None):
         """Browsers request /favicon.ico by default, outside the static route."""
         from flask import send_from_directory
         return send_from_directory(
-            os.path.join(app.root_path, 'static'), 'favicon.ico', max_age=86400
+            os.path.join(app.root_path, 'static'), 'favicon.ico',
+            mimetype='image/x-icon', max_age=86400
         )
 
     # Serve PWA metadata and the service worker from the project root
