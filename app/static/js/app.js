@@ -334,6 +334,19 @@
       updateCatalogOptions();
     });
 
+    /* ── One-click demo logins (sign-in page) ────────────── */
+    document.querySelectorAll('.cn-demo-login').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var email = document.getElementById('email');
+        var password = document.getElementById('password');
+        var form = document.querySelector('.cn-auth__form');
+        if (!email || !password || !form) return;
+        email.value = btn.getAttribute('data-email') || '';
+        password.value = btn.getAttribute('data-password') || '';
+        form.requestSubmit();
+      });
+    });
+
     /* ── Service worker ─────────────────────────────────── */
     if ('serviceWorker' in navigator && window.isSecureContext) {
       window.addEventListener('load', function () {
