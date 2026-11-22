@@ -199,6 +199,22 @@ Visit `http://localhost:5000` in your browser.
 - **Teacher**: Use credentials from `create_teacher.py`
 - **Student**: Register at `/auth/register`
 
+### 🔑 Demo Login (one click)
+
+The sign-in page has **Teacher demo** and **Student demo** buttons — one click fills the
+credentials and opens the real dashboard, no sign-up needed. The demo accounts and starter
+content (Class 10 & 12 with subjects, chapters and published lessons) are seeded automatically
+on the live deployment.
+
+| Role | Email | Password |
+| --- | --- | --- |
+| Teacher (Er. Amit Sir) | `teacher@classnext.demo` | `Teacher@123` |
+| Student (Demo Student) | `student@classnext.demo` | `Student@123` |
+
+> The teacher demo account is the real teacher account with full teacher access. Change its
+> password before handing the site over for regular use, and remove the demo buttons from
+> `app/templates/public/login.html` if one-click access is no longer wanted.
+
 ---
 
 ## 🗂️ Project Structure
