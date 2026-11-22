@@ -105,9 +105,35 @@
         </button>
       </form>
 
+      <div class="cn-auth__demo">
+        <p class="cn-auth__demo-title"><span></span>Try the demo — one click<span></span></p>
+        <div class="cn-auth__demo-actions">
+          <button type="button" class="cn-btn cn-btn--ghost cn-demo-login"
+                  data-email="teacher@classnext.demo" data-password="Teacher@123">
+            <i class="bi bi-mortarboard"></i> Teacher demo
+          </button>
+          <button type="button" class="cn-btn cn-btn--ghost cn-demo-login"
+                  data-email="student@classnext.demo" data-password="Student@123">
+            <i class="bi bi-backpack"></i> Student demo
+          </button>
+        </div>
+        <p class="cn-auth__demo-note">Demo accounts open the real dashboards — no sign-up needed.</p>
+      </div>
+
       <p class="cn-auth__switch">Don't have an account? <a href="{{ url_for('auth.register') }}">Sign up for free</a></p>
       <p class="cn-auth__fineprint"><i class="bi bi-shield-lock"></i> Your account and learning data stay protected.</p>
     </div>
   </section>
 </main>
+{% endblock %}
+{% block scripts %}
+<script>
+  document.querySelectorAll('.cn-demo-login').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.getElementById('email').value = btn.dataset.email;
+      document.getElementById('password').value = btn.dataset.password;
+      btn.closest('.cn-auth__content').querySelector('.cn-auth__form').requestSubmit();
+    });
+  });
+</script>
 {% endblock %}
