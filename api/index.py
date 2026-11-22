@@ -29,3 +29,13 @@ if os.environ.get('VERCEL'):
         # If the database is unreachable, let the app's normal error
         # handling (and /healthz) report it instead of failing the import.
         pass
+
+    # Seed the one-click demo accounts (and starter content) used by the
+    # login page demo buttons. Idempotent — existing rows are untouched.
+    try:
+        from app.demo_seed import seed_demo_data
+
+        with app.app_context():
+            seed_demo_data()
+    except Exception:
+        pass
