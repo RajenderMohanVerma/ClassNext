@@ -126,14 +126,4 @@
   </section>
 </main>
 {% endblock %}
-{% block scripts %}
-<script>
-  document.querySelectorAll('.cn-demo-login').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      document.getElementById('email').value = btn.dataset.email;
-      document.getElementById('password').value = btn.dataset.password;
-      btn.closest('.cn-auth__content').querySelector('.cn-auth__form').requestSubmit();
-    });
-  });
-</script>
-{% endblock %}
+
