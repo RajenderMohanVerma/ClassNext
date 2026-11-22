@@ -191,6 +191,12 @@
 .cn-auth__switch a:hover { text-decoration: underline; }
 .cn-auth__fineprint { display: flex; align-items: center; justify-content: center; gap: 7px; margin: 30px 0 0; color: #8790a5; font-size: .73rem; }
 .cn-auth__fineprint i { color: #7381a1; }
+.cn-auth__demo { margin: 26px 0 0; }
+.cn-auth__demo-title { display: flex; align-items: center; gap: 12px; margin: 0 0 14px; color: var(--cn-text-secondary); font-size: .72rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; text-align: center; }
+.cn-auth__demo-title span { flex: 1; height: 1px; background: var(--cn-border, #e2e6f0); }
+.cn-auth__demo-actions { display: flex; gap: 10px; }
+.cn-auth__demo-actions .cn-btn { flex: 1; justify-content: center; }
+.cn-auth__demo-note { margin: 10px 0 0; text-align: center; color: #8790a5; font-size: .73rem; }
 .cn-auth__field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; }
 .cn-auth__content--register .cn-auth__heading { margin-bottom: 22px; }
 .cn-auth__content--register .cn-auth__form .cn-form-group { margin-bottom: 14px; }
